@@ -1,0 +1,101 @@
+<div wm-slider>
+    <p>
+        <img src="http://files.cod3r.com.br/curso-web/imagem1.jpg" alt="Muro da cidade" width="513" height="342"
+        title="Muro da Cidade por Tarso Bessa">
+    </p>
+    
+    <p>
+        <img src="http://files.cod3r.com.br/curso-web/imagem2.gif" alt="Intro Cod3r" height="342">
+    </p>
+    
+    <p class="circular">
+        <img src="http://files.cod3r.com.br/curso-web/imagem3.png" alt="Rio de Janeiro" height="342">
+    </p>
+    
+    <p class="texto">
+        <img src="http://files.cod3r.com.br/curso-web/avatar.jpg" alt="Avatar" height="50" align="left">
+        texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto
+    </p>
+    
+    <p class="cidade"></p>
+    
+    <p>
+        <picture> <!-- Condicional, sempre vai exibir uma que corresponde as restrições -->
+            <source srcset="http://files.cod3r.com.br/curso-web/logo-larga.png" media="(min-width: 600px">
+            <img src="http://files.cod3r.com.br/curso-web/logo-estreita.png" alt="Logo">
+        </picture>
+    </p>
+</div>
+
+<script>
+    function move(elem, start, end, step, callback) {
+        const newStart = start - step
+        if(newStart >= end){
+            elem.style.left = newStart + 'px'
+            setTimeout(() => move(elem, newStart, end, step, callback), 7)
+        } else {
+            callback()
+        }
+    }
+
+    function slider() {
+        const elements = document.querySelectorAll('[wm-slider] > p')
+
+        const slides = Array.from(elements)
+        exibirSlide(slides, slides[0])
+    }
+
+    function exibirSlide(slides, slide){
+        slide.style.display = 'block'
+
+        const start = innerWidth
+        const end = -slide.clientWidth
+
+        slide.style.left = `${start}px`
+
+        move(slide, start, end, 5, () => {
+            slide.style.display = 'none'
+            exibirSlide(slides, getNext(slides, slide))
+        })
+    }
+
+    function getNext(list, now){
+        const i = list.indexOf(now) + 1
+        return i < list.length ? list[i] : list[0]
+    }
+
+    slider()
+</script>
+
+
+<style>
+    *{
+        overflow-x: hidden;
+    }
+    p{
+        position: absolute;
+        display: none;
+    }
+    .circular {
+        width: 513px;
+        background-color: #444;
+    }
+
+    .texto{
+        width: 400px;
+    }
+
+    .texto img{
+        margin-right: 10px;
+    }
+
+    .cidade{
+        width: 513px;
+        height: 342px;
+        background-image: url(http://files.cod3r.com.br/curso-web/imagem4.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 200%;
+    }
+</style>
+
